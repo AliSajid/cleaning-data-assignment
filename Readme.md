@@ -10,10 +10,10 @@ The data set "Human Activity Recognition Using Smartphones" was taken from [UCI]
 
 ### Execution and files
 
-The script is run_analysis.R. It tests if you have data already in your working directory. If it does, not, it downloads and extracts the data.
+The script is [run_analysis.R](https://github.com/AliSajid/cleaning-data-assignment/blob/master/run_analysis.R). It tests if you have data already in your working directory. If it does, not, it downloads and extracts the data.
 
-The file codebook.Rmd and its cousin codebook.md describe the variables, the data, and the steps performed to clean it up. It can be executed in R, RStudio or through RScript on the commandline. It does not need any parameters.
+The file [codebook.Rmd](https://github.com/AliSajid/cleaning-data-assignment/blob/master/codebook.Rmd) and its cousin [codebook.md](https://github.com/AliSajid/cleaning-data-assignment/blob/master/codebook.md) describe the variables, the data, and the steps performed to clean it up. It can be executed in R, RStudio or through RScript on the commandline. It does not need any parameters.
 
-The file codebook.html is a generated HTML file of the codebook.Rmd
+The file [codebook.html](https://github.com/AliSajid/cleaning-data-assignment/blob/master/codebook.html) is a generated HTML file of the codebook.Rmd
 
 The above file results in a text file called "tidy-data.csv" which is the inal cleaned up data and contains the means and standard deviation of the individual variables for each activity and each subject.
