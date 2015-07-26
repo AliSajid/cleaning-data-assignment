@@ -2,7 +2,7 @@
 
 This repository is for the course project for "Getting and Cleaning Data" Coursera course, part of their Data Science track
 
-The purpose of this project is to demonstrate the collection, work with, and cleaning of this data set. Tidy data have been prepared so can be used for later analysis.
+The purpose of this project is to demonstrate the collection, work with, and cleaning of this data set. Tidy data ha been prepared so can be used for later analysis.
 
 ### Data Set
 
