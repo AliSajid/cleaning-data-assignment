@@ -50,7 +50,7 @@ These signals were used to estimate variables of the feature vector for each pat
 
 ### Work/Transformations
 
-#### 0. Load the required libraries.
+#### Load the required libraries.
 
 We use the `data.table` library to manage the final step.
 
@@ -58,7 +58,7 @@ We use the `data.table` library to manage the final step.
 library(data.table)
 ```
 
-#### 1. Load test and training sets and the activities
+#### Load test and training sets and the activities
 
 The dataset is downloaded to the `UCI HAR Dataset/` directory.
 
@@ -93,7 +93,7 @@ train.data.act <- read.table("./UCI HAR Dataset/train/y_train.txt", header=FALSE
 train.data.sub <- read.table("./UCI HAR Dataset/train/subject_train.txt", header=FALSE)
 ```
 
-#### 2. Descriptive activity names to name the activities in the data set
+#### Descriptive activity names to name the activities in the data set
 
 The class labels linked with their activity names are loaded from the `activity_labels.txt` file. The numbers of the `test.data.act` and `train.data.act` data frames are replaced by those names:
 
@@ -103,7 +103,7 @@ test.data.act$V1 <- factor(test.data.act$V1, levels=activities$V1, labels=activi
 train.data.act$V1 <- factor(train.data.act$V1, levels=activities$V1, labels=activities$V2)
 ```
 
-#### 3. Appropriately labels the data set with descriptive activity names
+#### Appropriately labels the data set with descriptive activity names
 
 Each data frame of the data set is labeled - using the `features.txt` - with the information about the variables used on the feature vector. The `Activity` and `Subject` columns are also named properly before merging them to the test and train dataset.
 
@@ -117,7 +117,7 @@ colnames(test.data.sub) <- c("Subject")
 colnames(train.data.sub) <- c("Subject")
 ```
 
-#### 4. Merge test and training sets into one data set, including the activities
+#### Merge test and training sets into one data set, including the activities
 
 The `Activity` and `Subject` columns are appended to the test and train data frames, and then are both merged in the `big.data` data frame.
 
@@ -129,7 +129,7 @@ train.data <- cbind(train.data, train.data.sub)
 big.data <- rbind(test.data, train.data)
 ```
 
-#### 5. Extract only the measurements on the mean and standard deviation for each measurement
+#### Extract only the measurements on the mean and standard deviation for each measurement
 
 `mean()` and `sd()` are used against `big.data` via `sapply()` to extract the requested measurements.
 
@@ -140,12 +140,12 @@ big.data.sd <- sapply(big.data, sd, na.rm=TRUE)
 
 A warning is returned for the `Activity` column because it's not numeric. This does not impact the calcucation of the rest and NA is stored in the new data frames instead, since mean and sd are not applicable in this case. The same applies for `Subject` where we're not interested about the mean and sd, but since it's numeric already there is no warning.
 
-#### 6. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+#### Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-Finaly the desired result, a `tidy` data table is created with the average of each measurement per activity/subject combination. The new dataset is saved in `tidy.csv` file.
+Finaly the desired result, a `tidy` data table is created with the average of each measurement per activity/subject combination. The new dataset is saved in `tidy.txt` file. The file is a csv file, saved as txt.
 
 ```{r dump_output}
 DT <- data.table(big.data)
 tidy <- DT[, lapply(.SD, mean), by="Activity,Subject"]
-write.table(tidy, file="tidy.csv", sep=",", row.names = FALSE)
+write.table(tidy, file="tidy.txt", sep=",", row.names = FALSE)
 ```

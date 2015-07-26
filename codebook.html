@@ -113,17 +113,17 @@ img {
 <div id="worktransformations" class="section level3">
 <h3>Work/Transformations</h3>
 <div id="load-the-required-libraries." class="section level4">
-<h4>0. Load the required libraries.</h4>
+<h4>Load the required libraries.</h4>
 <p>We use the <code>data.table</code> library to manage the final step.</p>
-<pre class="r"><code>library(data.table)</code></pre>
+<pre class="{r}"><code>library(data.table)</code></pre>
 </div>
 <div id="load-test-and-training-sets-and-the-activities" class="section level4">
-<h4>1. Load test and training sets and the activities</h4>
+<h4>Load test and training sets and the activities</h4>
 <p>The dataset is downloaded to the <code>UCI HAR Dataset/</code> directory.</p>
 <p>The CDN url provided by the instructor is used instead of the original location, to offload the traffic to the UCI server.</p>
 <p>The <code>unzip()</code> function is used to extract the zip file in this directory.</p>
 <p>A helper <code>filepath()</code> function is used to make file paths, and used in the test to see if the data files already exist in the current directory. If they do, then we don’t download the data again.</p>
-<pre class="r"><code>filePath &lt;- function(...) { paste(..., sep = &quot;/&quot;) }
+<pre class="{r}"><code>filePath &lt;- function(...) { paste(..., sep = &quot;/&quot;) }
 
 # Checking to see if the file is alread downloaded.
 downloadDir &lt;- &quot;.&quot;
@@ -135,7 +135,7 @@ if(!file.exists(zipFile)) { download.file(url, zipFile, method = &quot;curl&quot
 dataDir &lt;- &quot;UCI HAR Dataset&quot;
 if(!file.exists(dataDir)) { unzip(zipFile, exdir = &quot;.&quot;) }</code></pre>
 <p><code>read.table()</code> is used to load the data to R environment for the data, the activities and the subject of both test and training datasets.</p>
-<pre class="r"><code>test.data &lt;- read.table(&quot;./UCI HAR Dataset/test/X_test.txt&quot;, header=FALSE)
+<pre class="{r}"><code>test.data &lt;- read.table(&quot;./UCI HAR Dataset/test/X_test.txt&quot;, header=FALSE)
 test.data.act &lt;- read.table(&quot;./UCI HAR Dataset/test/y_test.txt&quot;, header=FALSE)
 test.data.sub &lt;- read.table(&quot;./UCI HAR Dataset/test/subject_test.txt&quot;, header=FALSE)
 train.data &lt;- read.table(&quot;./UCI HAR Dataset/train/X_train.txt&quot;, header=FALSE)
@@ -143,47 +143,39 @@ train.data.act &lt;- read.table(&quot;./UCI HAR Dataset/train/y_train.txt&quot;,
 train.data.sub &lt;- read.table(&quot;./UCI HAR Dataset/train/subject_train.txt&quot;, header=FALSE)</code></pre>
 </div>
 <div id="descriptive-activity-names-to-name-the-activities-in-the-data-set" class="section level4">
-<h4>2. Descriptive activity names to name the activities in the data set</h4>
+<h4>Descriptive activity names to name the activities in the data set</h4>
 <p>The class labels linked with their activity names are loaded from the <code>activity_labels.txt</code> file. The numbers of the <code>test.data.act</code> and <code>train.data.act</code> data frames are replaced by those names:</p>
-<pre class="r"><code>activities &lt;- read.table(&quot;./UCI HAR Dataset/activity_labels.txt&quot;, header=FALSE, colClasses=&quot;character&quot;)
+<pre class="{r}"><code>activities &lt;- read.table(&quot;./UCI HAR Dataset/activity_labels.txt&quot;, header=FALSE, colClasses=&quot;character&quot;)
 test.data.act$V1 &lt;- factor(test.data.act$V1, levels=activities$V1, labels=activities$V2)
 train.data.act$V1 &lt;- factor(train.data.act$V1, levels=activities$V1, labels=activities$V2)</code></pre>
 </div>
 <div id="appropriately-labels-the-data-set-with-descriptive-activity-names" class="section level4">
-<h4>3. Appropriately labels the data set with descriptive activity names</h4>
+<h4>Appropriately labels the data set with descriptive activity names</h4>
 <p>Each data frame of the data set is labeled - using the <code>features.txt</code> - with the information about the variables used on the feature vector. The <code>Activity</code> and <code>Subject</code> columns are also named properly before merging them to the test and train dataset.</p>
-<pre class="r"><code>features &lt;- read.table(&quot;./UCI HAR Dataset/features.txt&quot;, header=FALSE, colClasses=&quot;character&quot;)
-colnames(test.data) &lt;- features$V2
-colnames(train.data) &lt;- features$V2
-colnames(test.data.act) &lt;- c(&quot;Activity&quot;)
-colnames(train.data.act) &lt;- c(&quot;Activity&quot;)
-colnames(test.data.sub) &lt;- c(&quot;Subject&quot;)
-colnames(train.data.sub) &lt;- c(&quot;Subject&quot;)</code></pre>
+<p><code>{r add_labels} features &lt;- read.table(&quot;./UCI HAR Dataset/features.txt&quot;, header=FALSE, colClasses=&quot;character&quot;) colnames(test.data) &lt;- features$V2 colnames(train.data) &lt;- features$V2 colnames(test.data.act) &lt;- c(&quot;Activity&quot;) colnames(train.data.act) &lt;- c(&quot;Activity&quot;) colnames(test.data.sub) &lt;- c(&quot;Subject&quot;) colnames(train.data.sub) &lt;- c(&quot;Subject&quot;)</code></p>
 </div>
 <div id="merge-test-and-training-sets-into-one-data-set-including-the-activities" class="section level4">
-<h4>4. Merge test and training sets into one data set, including the activities</h4>
+<h4>Merge test and training sets into one data set, including the activities</h4>
 <p>The <code>Activity</code> and <code>Subject</code> columns are appended to the test and train data frames, and then are both merged in the <code>big.data</code> data frame.</p>
-<pre class="r"><code>test.data &lt;- cbind(test.data, test.data.act)
+<pre class="{r}"><code>test.data &lt;- cbind(test.data, test.data.act)
 test.data &lt;- cbind(test.data, test.data.sub)
 train.data &lt;- cbind(train.data, train.data.act)
 train.data &lt;- cbind(train.data, train.data.sub)
 big.data &lt;- rbind(test.data, train.data)</code></pre>
 </div>
 <div id="extract-only-the-measurements-on-the-mean-and-standard-deviation-for-each-measurement" class="section level4">
-<h4>5. Extract only the measurements on the mean and standard deviation for each measurement</h4>
+<h4>Extract only the measurements on the mean and standard deviation for each measurement</h4>
 <p><code>mean()</code> and <code>sd()</code> are used against <code>big.data</code> via <code>sapply()</code> to extract the requested measurements.</p>
-<pre class="r"><code>big.data.mean &lt;- sapply(big.data, mean, na.rm=TRUE)</code></pre>
-<pre><code>## Warning in mean.default(X[[i]], ...): argument is not numeric or logical:
-## returning NA</code></pre>
-<pre class="r"><code>big.data.sd &lt;- sapply(big.data, sd, na.rm=TRUE)</code></pre>
+<pre class="{r}"><code>big.data.mean &lt;- sapply(big.data, mean, na.rm=TRUE)
+big.data.sd &lt;- sapply(big.data, sd, na.rm=TRUE)</code></pre>
 <p>A warning is returned for the <code>Activity</code> column because it’s not numeric. This does not impact the calcucation of the rest and NA is stored in the new data frames instead, since mean and sd are not applicable in this case. The same applies for <code>Subject</code> where we’re not interested about the mean and sd, but since it’s numeric already there is no warning.</p>
 </div>
 <div id="creates-a-second-independent-tidy-data-set-with-the-average-of-each-variable-for-each-activity-and-each-subject." class="section level4">
-<h4>6. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.</h4>
-<p>Finaly the desired result, a <code>tidy</code> data table is created with the average of each measurement per activity/subject combination. The new dataset is saved in <code>tidy.csv</code> file.</p>
-<pre class="r"><code>DT &lt;- data.table(big.data)
+<h4>Creates a second, independent tidy data set with the average of each variable for each activity and each subject.</h4>
+<p>Finaly the desired result, a <code>tidy</code> data table is created with the average of each measurement per activity/subject combination. The new dataset is saved in <code>tidy.txt</code> file. The file is a csv file, saved as txt.</p>
+<pre class="{r}"><code>DT &lt;- data.table(big.data)
 tidy &lt;- DT[, lapply(.SD, mean), by=&quot;Activity,Subject&quot;]
-write.table(tidy, file=&quot;tidy.csv&quot;, sep=&quot;,&quot;, row.names = FALSE)</code></pre>
+write.table(tidy, file=&quot;tidy.txt&quot;, sep=&quot;,&quot;, row.names = FALSE)</code></pre>
 </div>
 </div>
 
